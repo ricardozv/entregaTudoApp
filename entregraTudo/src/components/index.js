@@ -1,14 +1,22 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-const RestaurantItem = () => {
+const RestaurantItem = ({ restaurant }) => {
   return (
     <View style={styles.restaurantContainer}>
-      <Image source={{uri:"https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant1.jpeg"}}
+      <Image source={{uri: restaurant.image}}
       style={styles.image} 
       />
-          <Text style={styles.title}> Burguer do Engenheiro </Text>
-          <Text style={styles.subtitle}> R$ 20.00 Tempo de entrega 15 - 30 minutos </Text>
-    
+        <View style={styles.row}>
+          <View>
+            <Text style={styles.title}>{restaurant.name}</Text>
+            <Text style={styles.subtitle}> 
+            R$ {restaurant.deliveryFree} &#82286; {restaurant.minDelivery}-{restaurant.maxDelivery}Tempo de entrega </Text>
+          </View>
+            <View style = {styles.rating}>
+              <Text>{restaurant.rating}</Text>
+            </View>
+        
+        </View>
     </View>
   )
 }
@@ -34,6 +42,21 @@ const styles = StyleSheet.create({
     },
     subtitle: {
       color:'gray',
-    }
+    },
+    row: {
+      flexDirection:'row'
+    },
+    rating:{
+      marginLeft:"auto",
+      backgroundColor: '#fff000',
+      width: 30,
+      height: 30,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 30,
+      padding: 5
+      
+    },
+
   });
   
