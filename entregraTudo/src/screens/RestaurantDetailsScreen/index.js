@@ -16,12 +16,13 @@ const RestaurantDetailsScreen = () => {
                 data = {restaurant.dishes}
                 renderItem = {({ item }) => <DishListItem dish = {item} />}
             />
-                        <Ionicons 
+
+            <Ionicons 
                 name= "arrow-back-circle" 
-                size={38} 
+                size={40} 
                 color="white" 
                 style={styles.iconContainer} 
-                />
+            />
         </View>
     )
 }
