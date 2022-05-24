@@ -6,6 +6,7 @@ import DishListItem from './src/components/DishListItem';
 import DishDetailsScreen from './src/screens/DishDetailsScreen';
 import Basket from './src/screens/Basket';
 import OrdersScreen from './src/screens/OrdersScreen';
+import OrderDetails from './src/screens/OrderDetails';
 
 
 export default function App() {
@@ -15,8 +16,9 @@ export default function App() {
       {/* <DishListItem /> */}
        {/* <RestaurantDetailsPage /> */} 
        {/* <DishDetailsScreen /> */}
-      {/* <Basket /> */}
-      <OrdersScreen />
+       <Basket /> 
+      {/* <OrdersScreen /> */}
+      {/* <OrderDetails /> */}
       <StatusBar style="white" />
      
     </View>

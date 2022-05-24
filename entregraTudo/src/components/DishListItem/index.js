@@ -12,8 +12,8 @@ const DishListItem = ({ dish }) => {
             <Image source = {{ uri: dish.image }} style = {styles.image} />
             )}
             </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
