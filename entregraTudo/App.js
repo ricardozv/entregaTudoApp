@@ -3,12 +3,20 @@ import { StyleSheet, View, FlatList } from 'react-native';
 import HomeScreen from "./src/screens/HomeScreen";
 import RestaurantDetailsPage from './src/screens/RestaurantDetailsScreen';
 import DishListItem from './src/components/DishListItem';
+import DishDetailsScreen from './src/screens/DishDetailsScreen';
+import Basket from './src/screens/Basket';
+import OrdersScreen from './src/screens/OrdersScreen';
+
+
 export default function App() {
   return (
     <View style={styles.container}>
       {/* <HomeScreen /> */}
       {/* <DishListItem /> */}
-       <RestaurantDetailsPage /> 
+       {/* <RestaurantDetailsPage /> */} 
+       {/* <DishDetailsScreen /> */}
+      {/* <Basket /> */}
+      <OrdersScreen />
       <StatusBar style="white" />
      
     </View>
