@@ -12,14 +12,14 @@ import OrderDetails from './src/screens/OrderDetails';
 export default function App() {
   return (
     <View style={styles.container}>
-      {/* <HomeScreen /> */}
-      {/* <DishListItem /> */}
+       {/* <HomeScreen /> */} 
+       {/* <DishListItem /> */}
        {/* <RestaurantDetailsPage /> */} 
        {/* <DishDetailsScreen /> */}
-       <Basket /> 
+        <Basket />  
       {/* <OrdersScreen /> */}
       {/* <OrderDetails /> */}
-      <StatusBar style="white" />
+      <StatusBar style="auto" />
      
     </View>
   );
