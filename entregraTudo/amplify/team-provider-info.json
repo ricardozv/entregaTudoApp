@@ -10,6 +10,11 @@
       "StackName": "amplify-entregatudo-staging-34815",
       "StackId": "arn:aws:cloudformation:us-east-1:459032456812:stack/amplify-entregatudo-staging-34815/5610cee0-dfcb-11ec-aca0-0ac157b029a1",
       "AmplifyAppId": "d1ssr6frvorjx6"
+    },
+    "categories": {
+      "auth": {
+        "entregatudocd1cf4d7": {}
+      }
     }
   }
 }
