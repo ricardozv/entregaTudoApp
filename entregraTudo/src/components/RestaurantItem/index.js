@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 const RestaurantItem = ({ restaurant }) => {
   const navigation = useNavigation();
 
-
   const onPress = ( ) => {
     navigation.navigate("Restaurant", {id: restaurant.id});
   }

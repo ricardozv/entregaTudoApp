@@ -63,7 +63,7 @@ const HomeTabs = () => {
                 name = 'Profile'
                 component={ProfileScreen}
                 options={{
-                    tabBarIcon: ({ color }) => ( <FontAwesome5 name="user-alt" size={24} color={color} />
+                    tabBarIcon: ({ color }) => ( <FontAwesome5 name="user-astronaut" size={24} color={color} />
                     ),
                 }} 
             />
@@ -91,7 +91,6 @@ const OrderStackNavigator = () => {
         <OrdersStack.Navigator>
             <OrdersStack.Screen name="Orders" component={OrdersScreen} />
             <OrdersStack.Screen name="Order" component={OrderDetails} />
-           
         </OrdersStack.Navigator>
     );
 };
