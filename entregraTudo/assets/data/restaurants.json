@@ -1,5 +1,5 @@
 [{
-  "id": "1",
+  "id": "0",
   "name": "El Cabo Coffe Bar Tres De Mayo",
   "deliveryFee": 1.40,
   "minDeliveryTime": 25,
@@ -36,7 +36,7 @@
     }
   ]
 }, {
-  "id": "2",
+  "id": "1",
   "name": "Tony Roma's - C.C. Meridiano",
   "deliveryFee": 0.40,
   "minDeliveryTime": 25,
@@ -72,7 +72,7 @@
     }
   ]
 }, {
-  "id": "3",
+  "id": "2",
   "name": "Brothers Barbecue",
   "deliveryFee": 1.40,
   "minDeliveryTime": 20,
@@ -107,6 +107,42 @@
     }
   ]
 }, {
+  "id": "3",
+  "name": "Hamburguesa Nostra La Salle",
+  "deliveryFee": 0.90,
+  "minDeliveryTime": 30,
+  "maxDeliveryTime": 40,
+  "rating": 4.5,
+  "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant4.jpeg",
+  "dishes": [
+    {
+      "name": "English burger",
+      "description": "Beef with bacon, portobello mushrooms, tomato, cheddar cheese, grilled egg and our smoked sauce.",
+      "price": 14.90     
+    },
+    {
+      "name": "Mexican Burger",
+      "description": "Beef, with pico de gallo, veggie chili, cheddar cheese, guacamole and smoked sauce.",
+      "price": 14.90     
+    },
+    {
+      "name": "Tequeños",
+      "description": "Crispy sticks filled with melted cheese accompanied by tomato chutney.",
+      "price": 9.90    
+    },
+    {
+      "name": "Starters Combo",
+      "description": "Tequeños, crispy onion and chicken delicacies.",
+      "price": 13.90    
+    },
+    {
+      "name": "Cesar Salad",
+      "description": "Green sprouts, pieces of grilled bacon, chicken delicacies, grated Parmesan, muffin croutons and fried onion confetti dressed with Caesar sauce.",
+      "price": 10.50     
+    }
+  ]
+},
+ {
   "id": "4",
   "name": "Hamburguesa Nostra La Salle",
   "deliveryFee": 0.90,

@@ -52,9 +52,9 @@ const HomeTabs = () => {
                     headerShown: false,
                     tabBarIcon: ({ color }) => ( 
                     <MaterialIcons 
-                    name="list-alt" 
-                    size={24} 
-                    color={color} 
+                        name="list-alt" 
+                        size={24} 
+                        color={color} 
                     />
                     ),
                 }} 
@@ -63,7 +63,12 @@ const HomeTabs = () => {
                 name = 'Profile'
                 component={ProfileScreen}
                 options={{
-                    tabBarIcon: ({ color }) => ( <FontAwesome5 name="user-alt" size={24} color={color} />
+                    tabBarIcon: ({ color }) => ( 
+                        <FontAwesome5 
+                            name="user-astronaut" 
+                            size={24} 
+                            color={color} 
+                            />
                     ),
                 }} 
             />
@@ -76,10 +81,23 @@ const HomeStack = createNativeStackNavigator();
 const HomeStackNavigator = () => {
     return (
         <HomeStack.Navigator>
-            <HomeStack.Screen name="Restaurants" component={HomeScreen} />
-            <HomeStack.Screen name="Restaurant" component={RestaurantDetailsScreen} options={{headerShown: false }} />
-            <HomeStack.Screen name="Dish" component={DishDetailsScreen} />
-            <HomeStack.Screen name="Basket" component={Basket} />
+            <HomeStack.Screen 
+                name="Restaurants" 
+                component={HomeScreen} 
+                />
+            <HomeStack.Screen 
+                name="Restaurant" 
+                component={RestaurantDetailsScreen} 
+                options={{headerShown: false }} 
+                />
+            <HomeStack.Screen 
+                name="Dish" 
+                component={DishDetailsScreen} 
+                />
+            <HomeStack.Screen 
+                name="Basket" 
+                component={Basket} 
+                />
         </HomeStack.Navigator>
     );
 };
@@ -89,9 +107,14 @@ const OrdersStack = createNativeStackNavigator();
 const OrderStackNavigator = () => {
     return (
         <OrdersStack.Navigator>
-            <OrdersStack.Screen name="Orders" component={OrdersScreen} />
-            <OrdersStack.Screen name="Order" component={OrderDetails} />
-           
+            <OrdersStack.Screen 
+                name="Orders" 
+                component={OrdersScreen} 
+                />
+            <OrdersStack.Screen 
+                name="Order" 
+                component={OrderDetails} 
+                />
         </OrdersStack.Navigator>
     );
 };
