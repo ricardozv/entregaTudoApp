@@ -25,7 +25,7 @@ const RestaurantItem = ({ restaurant }) => {
             R$ {restaurant.deliveryFee.toFixed(2)} &#82286; {restaurant.minDeliveryTime} - {restaurant.maxDeliveryTime} Tempo de entrega </Text>
           </View>
             <View style = {styles.rating}>
-              <Text>{restaurant.rating}</Text>
+              <Text>{restaurant.rating.toFixed(1)}</Text>
             </View>
         
         </View>
