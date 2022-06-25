@@ -7,16 +7,22 @@ import styles from './styles';
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { DataStore } from 'aws-amplify';
 import { Restaurant } from '../../models';
+import { Dish } from '../../models';
 
 
 const RestaurantDetailsScreen = () => {
     const [restaurant, setRestaurant] = useState(null);
+    const [ dishes, setDishes ] = useState([]);
+    
     const route = useRoute();
     const navigation = useNavigation();
     const id = route.params?.id;
 
     useEffect(() => {
         DataStore.query(Restaurant, id).then(setRestaurant);
+        DataStore.query( Dish, (dish) => dish.restaurantID("eq", id )).then(
+            setDishes
+        )
     },[])
 
     if (!restaurant) {
@@ -28,7 +34,7 @@ const RestaurantDetailsScreen = () => {
            
             <FlatList
                 ListHeaderComponent={() => <Header restaurant = {restaurant} />}
-                data = {restaurant.dishes}
+                data = {dishes}
                 renderItem = {({ item }) => <DishListItem dish = {item} />}
                 keyExtractor = {(item) => item.name}    
             />

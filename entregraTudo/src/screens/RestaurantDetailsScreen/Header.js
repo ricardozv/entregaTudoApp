@@ -1,11 +1,19 @@
 import { View, Text, Image, FlatList, StyleSheet} from 'react-native';
 import styles from './styles';
 
+const DEFAULT_IMAGE = 
+  "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant1.jpeg"
+
+
 const RestaurantHeader = ({restaurant}) => {
     return (
         <View style={styles.page}>
             <Image 
-                source={{uri: restaurant.image}} 
+                source={{
+                    uri: restaurant.image.startsWith('http') 
+                    ? restaurant.image 
+                    : DEFAULT_IMAGE
+                }} 
                 style={styles.image}
             />
                  
