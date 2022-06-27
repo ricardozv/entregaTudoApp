@@ -13,7 +13,6 @@ import { Dish } from '../../models';
 const RestaurantDetailsScreen = () => {
     const [restaurant, setRestaurant] = useState(null);
     const [ dishes, setDishes ] = useState([]);
-    
     const route = useRoute();
     const navigation = useNavigation();
     const id = route.params?.id;
@@ -38,7 +37,6 @@ const RestaurantDetailsScreen = () => {
                 renderItem = {({ item }) => <DishListItem dish = {item} />}
                 keyExtractor = {(item) => item.name}    
             />
-
             <Ionicons 
                 onPress={()=> navigation.goBack()}
                 name= "arrow-back-circle" 

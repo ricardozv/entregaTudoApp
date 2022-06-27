@@ -1,6 +1,4 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-
-
+import { View, Text, StyleSheet} from 'react-native';
 
 const BasketDishItem = ({ basketDish }) => {
     return (

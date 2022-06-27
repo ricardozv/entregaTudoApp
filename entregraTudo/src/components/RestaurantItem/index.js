@@ -24,20 +24,25 @@ const RestaurantItem = ({ restaurant }) => {
       />
         <View style={styles.row}>
           <View>
-            <Text style={styles.title}>{restaurant.name}</Text>
+            <Text style={styles.title}>
+              {restaurant.name}
+            </Text>
             <Text style={styles.subtitle}> 
-            R$ {restaurant.deliveryFee.toFixed(2)} &#82286; {restaurant.minDeliveryTime} - {restaurant.maxDeliveryTime} Tempo de entrega </Text>
+              R$ {restaurant.deliveryFee.toFixed(2)} &#82286; 
+              {restaurant.minDeliveryTime} - {restaurant.maxDeliveryTime} 
+              Tempo de entrega 
+            </Text>
           </View>
             <View style = {styles.rating}>
               <Text>{restaurant.rating.toFixed(1)}</Text>
             </View>
-        
         </View>
     </Pressable>
   )
 }
 
 export default RestaurantItem;
+
 const styles = StyleSheet.create({
     restaurantContainer: {
       width: '100%',
