@@ -46,7 +46,7 @@ const HomeTabs = () => {
                 }} 
             />
             <Tab.Screen 
-                name = 'Orders'
+                name = 'Pedidos'
                 component={OrderStackNavigator}
                 options={{
                     headerShown: false,
@@ -60,7 +60,7 @@ const HomeTabs = () => {
                 }} 
             />
             <Tab.Screen 
-                name = 'Profile'
+                name = 'Perfil'
                 component={ProfileScreen}
                 options={{
                     tabBarIcon: ({ color }) => ( 
