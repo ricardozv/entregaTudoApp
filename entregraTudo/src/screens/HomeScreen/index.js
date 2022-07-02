@@ -3,7 +3,6 @@ import { StyleSheet, FlatList, View } from 'react-native';
 import RestaurantItem from "../../components/RestaurantItem";
 import { DataStore } from 'aws-amplify';
 import { Restaurant } from '../../models';
-//import restaurants from "../../../assets/data/restaurants.json";
 
 export default function HomeScreen() {
   const [ restaurants, setRestaurants ] = useState([]);
@@ -25,7 +24,8 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 10,
+    padding: 15,
+    marginTop: 20
   }
 });
 

@@ -1,4 +1,4 @@
-import { View, Text, Image, FlatList, StyleSheet} from 'react-native';
+import { View, Text, Image } from 'react-native';
 import styles from './styles';
 
 const DEFAULT_IMAGE = 
@@ -19,11 +19,12 @@ const RestaurantHeader = ({restaurant}) => {
                  
             <View style={styles.container}>
             <Text style = {styles.title}>{restaurant.name}</Text>
-            <Text style = {styles.subtitle}> R$ {restaurant.deliveryFree} &#82286; 
-                {restaurant.minDelivery}-{restaurant.maxDelivery}
-                Tempo de entrega 
+            <Text style = {styles.subtitle}>  R$ {restaurant.deliveryFee.toFixed(2)} &#82286; 
+                {restaurant.minDeliveryTime} - {restaurant.maxDeliveryTime}
+                  Minutos
+                
             </Text>
-            <Text style = {styles.menuTitle} >Menu</Text>
+            <Text style = {styles.menuTitle} > Cardápio </Text>
             </View>
         </View>
     )

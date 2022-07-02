@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
         padding: 10
 
     },
-
     name:{
         fontSize: 30,
         fontWeight: "600",

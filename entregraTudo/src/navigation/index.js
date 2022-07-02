@@ -83,7 +83,8 @@ const HomeStackNavigator = () => {
         <HomeStack.Navigator>
             <HomeStack.Screen 
                 name="Restaurants" 
-                component={HomeScreen} 
+                component={HomeScreen}
+                options={{headerShown: false }} 
                 />
             <HomeStack.Screen 
                 name="Restaurant" 
