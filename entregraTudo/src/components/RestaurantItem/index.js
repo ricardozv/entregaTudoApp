@@ -47,20 +47,17 @@ const styles = StyleSheet.create({
     restaurantContainer: {
       width: '100%',
       marginVertical: 10
-  
     },
     image: {
       width: '100%',
       aspectRatio: 5 / 3,
       marginBottom: 5,
       borderRadius: 15
-  
     },
     title: {
       fontSize: 20,
       fontWeight: 'bold',
       marginVertical:5
-  
     },
     subtitle: {
       color:'gray',
@@ -77,8 +74,7 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       borderRadius: 30,
       padding: 5
-      
-    },
+    }
 
   });
   

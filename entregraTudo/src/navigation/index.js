@@ -5,24 +5,36 @@ import HomeScreen from "../screens/HomeScreen";
 import  RestaurantDetailsScreen  from '../screens/RestaurantDetailsScreen';
 // import DishListItem from './src/components/DishListItem';
 // import RestaurantItem from '../components/RestaurantItem';
- import DishDetailsScreen from '../screens/DishDetailsScreen';
- import Basket from '../screens/Basket';
+import DishDetailsScreen from '../screens/DishDetailsScreen';
+import Basket from '../screens/Basket';
 import OrdersScreen from '../screens/OrdersScreen';
 import OrderDetails from '../screens/OrderDetails';
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import ProfileScreen from "../screens/ProfileScreen";
+import { userAuthContext } from "../components/Contexts/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
 const RootNavigator = () => {
+    const { dbUser } = userAuthContext();
     return (
         <Stack.Navigator>
+        { dbUser ? (
             <Stack.Screen 
                 name = "HomeTabs" 
                 component={HomeTabs}
                 options={{headerShown: false }}
                 />
+        
+        ) : (    
+            <Stack.Screen 
+                name = "Profile" 
+                component={ProfileScreen}
+                options={{headerShown: false }}
+                />
+        )}
         </Stack.Navigator>
+    
     );
 };
 
