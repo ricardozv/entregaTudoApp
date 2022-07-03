@@ -31,8 +31,8 @@ export default StyleSheet.create ({
     },
     menuTitle: {
         marginTop: 20,
-        fontSize: 16,
-        letterSpacing:0.7
+        fontSize: 24,
+        letterSpacing:0.3
     }
 
 });

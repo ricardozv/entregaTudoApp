@@ -13,10 +13,12 @@ const DishDetailsScreen = () => {
 
     const navigation = useNavigation();
     const route = useRoute();
-    const id = route.params.id;
+    const id = route.params?.id;
 
     useEffect(() => {
+        if(id) {
         DataStore.query(Dish, id).then(setDish);
+        }
     }, [])
 
     const onMinus = () => {
@@ -74,7 +76,6 @@ const styles = StyleSheet.create({
         padding: 10
 
     },
-
     name:{
         fontSize: 30,
         fontWeight: "600",
