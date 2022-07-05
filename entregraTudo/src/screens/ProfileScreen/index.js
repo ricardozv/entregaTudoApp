@@ -11,16 +11,18 @@ const ProfileScreen = () => {
   const [lat, setLat] = useState("0");
   const [lng, setLng] = useState("0");
 
-  const { sub } = userAuthContext();
+  const { sub, setDbUser } = userAuthContext();
 
-  const onSave = () => {
+  const onSave = async () => {
     try {
 
-    DataStore.save(new User ({ 
-      name, 
-      adress, 
-      lat: parseFloat(lat), 
-      lng: parseFloat(lng), sub }))
+          const user = await DataStore.save(new User ({ 
+            name, 
+            adress, 
+            lat: parseFloat(lat), 
+            lng: parseFloat(lng), sub }));
+            setDbUser(user);
+            console.log(user)
       } 
       catch(e) {
       Alert.alert("Error", e.message )
