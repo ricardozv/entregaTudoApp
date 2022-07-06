@@ -2,57 +2,30 @@ import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Auth, DataStore } from "aws-amplify";
-import { User } from "../../models";
+import { User } from '../../models';
 import { useAuthContext } from "../../components/Contexts/AuthContext";
-import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = () => {
-  const { dbUser } = useAuthContext();
+  const [name, setName] = useState("");
+  const [adress, setAdress] = useState("");
+  const [lat, setLat] = useState("0");
+  const [lng, setLng] = useState("0");
 
-  const [name, setName] = useState(dbUser?.name || "");
-  const [adress, setAdress] = useState(dbUser?.adress || "");
-  const [lat, setLat] = useState(dbUser?.lat + "" || "0");
-  const [lng, setLng] = useState(dbUser?.lng + "" || "0");
+  const { sub } = useAuthContext();
 
-  const { sub, setDbUser } = useAuthContext();
-
-  const navigation = useNavigation();
-
-  const onSave = async () => {
-    if (dbUser) {
-      await updateUser();
-    } else {
-      await createUser();
-    }
-    navigation.goBack();
-  };
-
-  const updateUser = async () => {
-    const user = await DataStore.save(
-      User.copyOf(dbUser, (updated) => {
-        updated.name = name;
-        updated.adress = adress;
-        updated.lat = parseFloat(lat);
-        updated.lng = parseFloat(lng);
-      })
-    );
-    setDbUser(user);
-  };
-
-  const createUser = async () => {
+  const onSave = () => {
     try {
-      const user = await DataStore.save(
-        new User({
-          name,
-          address,
-          lat: parseFloat(lat),
-          lng: parseFloat(lng),
-          sub,
-        })
-      );
-      setDbUser(user);
-    } catch (e) {
-      Alert.alert("Error", e.message);
+
+           DataStore.save(new User ({ 
+            name, 
+            adress, 
+            lat: parseFloat(lat), 
+            lng: parseFloat(lng), 
+            sub }));
+            
+      } 
+      catch(e) {
+      Alert.alert("Error", e.message )
     }
   };
 
@@ -68,7 +41,7 @@ const ProfileScreen = () => {
       <TextInput
         value={adress}
         onChangeText={setAdress}
-        placeholder="Address"
+        placeholder="Adress"
         style={styles.input}
       />
       <TextInput
@@ -85,12 +58,11 @@ const ProfileScreen = () => {
         style={styles.input}
       />
       <Button onPress={onSave} title="Save" />
-      <Text
-        onPress={() => Auth.signOut()}
-        style={{ textAlign: "center", color: "red", margin: 10 }}
-      >
-        Sign out
-      </Text>
+          <Text 
+            onPress={() => Auth.signOut()} 
+            style = {{ textAlign: 'center', color:"red", margin: 20}}>
+              Sign Out
+          </Text>
     </SafeAreaView>
   );
 };
@@ -111,3 +83,5 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
+
+
