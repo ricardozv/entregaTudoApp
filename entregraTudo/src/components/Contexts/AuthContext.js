@@ -19,8 +19,6 @@ const AuthContextProvider = ({ children }) => {
         );
     }, [sub])
 
-    
-
     return (
         <AuthContext.Provider value ={{ authUser, dbUser, sub, setDbUser }}>
             {children}
@@ -30,4 +28,6 @@ const AuthContextProvider = ({ children }) => {
 
 export default AuthContextProvider;
 
-export const userAuthContext = () => useContext(AuthContext);
+export function useAuthContext() {
+    return useContext(AuthContext);
+}
