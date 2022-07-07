@@ -5,6 +5,7 @@ import { withAuthenticator } from "aws-amplify-react-native";
 import RootNavigator from './src/navigation';
 import config from './src/aws-exports';
 import AuthContextProvider from './src/components/Contexts/AuthContext';
+import BasketContextProvider from './src/components/Contexts/BasketContext';
 
 Amplify.configure({...config,
 Analytics:{
@@ -14,12 +15,14 @@ Analytics:{
 function App() {
   return (
     <NavigationContainer>
-     
       <AuthContextProvider>
-      <StatusBar style="auto" />
-        <RootNavigator />
+
+        <BasketContextProvider>
+          <RootNavigator />
+        </BasketContextProvider>
+        
       </AuthContextProvider>
-      
+      <StatusBar style="auto" />
     </NavigationContainer>
   );
 };
