@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-
 export default StyleSheet.create ({
     page:{
         flex:1
@@ -33,7 +32,20 @@ export default StyleSheet.create ({
         marginTop: 20,
         fontSize: 24,
         letterSpacing:0.3
-    }
+    },
+    button: {
+        backgroundColor: "black",
+        marginTop:"auto",
+        padding: 20,
+        alignItems: "center",
+        margin: 10,
+    },
+    buttonText:{
+        color: "white",
+        fontWeight:"600",
+        fontSize: 18, 
+
+    }   
 
 });
 

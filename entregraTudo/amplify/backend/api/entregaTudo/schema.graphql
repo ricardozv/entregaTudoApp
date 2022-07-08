@@ -1,3 +1,10 @@
+type BasketDish @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  quantity: Int!
+  Dish: Dish @hasOne
+  basketID: ID! @index(name: "byBasket")
+}
+
 type Dish @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
@@ -31,17 +38,13 @@ type Order @model @auth(rules: [{allow: public}]) {
   OrderDishes: [OrderDish] @hasMany(indexName: "byOrder", fields: ["id"])
 }
 
-type BasketDish @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  quantity: Int!
-  basketID: ID! @index(name: "byBasket")
-}
-
 type Basket @model @auth(rules: [{allow: public}]) {
   id: ID!
-  BasketDishes: [BasketDish] @hasMany(indexName: "byBasket", fields: ["id"])
   userID: ID! @index(name: "byUser")
   restaurantID: ID! @index(name: "byRestaurant")
+  BasketDishes: [BasketDish] @hasMany(indexName: "byBasket", fields: ["id"])
+  User: User @belongsTo
+  Restaurant: Restaurant @belongsTo
 }
 
 type User @model @auth(rules: [{allow: public}]) {

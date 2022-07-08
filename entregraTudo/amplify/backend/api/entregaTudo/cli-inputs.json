@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "entregaTudo",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-bcc1f3ae-fced-46ae-93ac-6fbe5a1be52a/amplify/backend/api/entregaTudo/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-97a49ac4-6ead-4154-9a42-49458912ec3d/amplify/backend/api/entregaTudo/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",
