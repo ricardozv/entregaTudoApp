@@ -11,12 +11,12 @@ import OrdersScreen from '../screens/OrdersScreen';
 import OrderDetails from '../screens/OrderDetails';
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import ProfileScreen from "../screens/ProfileScreen";
-import { userAuthContext } from "../components/Contexts/AuthContext";
+import { useAuthContext } from "../components/Contexts/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
 const RootNavigator = () => {
-    const { dbUser } = userAuthContext();
+    const { dbUser } = useAuthContext();
     return (
         <Stack.Navigator>
         { dbUser ? (
@@ -75,6 +75,7 @@ const HomeTabs = () => {
                 name = 'Perfil'
                 component={ProfileScreen}
                 options={{
+                    headerShown: false,
                     tabBarIcon: ({ color }) => ( 
                         <FontAwesome5 
                             name="user-astronaut" 
