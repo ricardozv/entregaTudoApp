@@ -6,6 +6,7 @@ import RootNavigator from './src/navigation';
 import config from './src/aws-exports';
 import AuthContextProvider from './src/components/Contexts/AuthContext';
 import BasketContextProvider from './src/components/Contexts/BasketContext';
+import OrderContextProvider from './src/components/Contexts/OrderContext';
 
 Amplify.configure({...config,
 Analytics:{
@@ -14,16 +15,16 @@ Analytics:{
 
 function App() {
   return (
-    <NavigationContainer>
-      <AuthContextProvider>
-
-        <BasketContextProvider>
-          <RootNavigator />
-        </BasketContextProvider>
-        
-      </AuthContextProvider>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+      <NavigationContainer>
+            <AuthContextProvider>
+                  <BasketContextProvider>
+                      <OrderContextProvider>
+                          <RootNavigator />
+                      </OrderContextProvider>
+                  </BasketContextProvider> 
+            </AuthContextProvider>
+        <StatusBar style="auto" />
+      </NavigationContainer>
   );
 };
 

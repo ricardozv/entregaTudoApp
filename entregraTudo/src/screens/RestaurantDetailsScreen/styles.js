@@ -13,7 +13,7 @@ export default StyleSheet.create ({
     },
     image: {
         width:'100%',
-        aspectRatio: 5 / 3
+        aspectRatio: 4 / 2
     },
     title:{
         fontSize: 35,
