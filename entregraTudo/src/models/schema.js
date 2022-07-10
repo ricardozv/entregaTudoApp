@@ -629,7 +629,7 @@ export const schema = {
                     "name": "status",
                     "isArray": false,
                     "type": {
-                        "enum": "OrderStatu"
+                        "enum": "OrderStatus"
                     },
                     "isRequired": true,
                     "attributes": []
@@ -783,8 +783,8 @@ export const schema = {
         }
     },
     "enums": {
-        "OrderStatu": {
-            "name": "OrderStatu",
+        "OrderStatus": {
+            "name": "OrderStatus",
             "values": [
                 "NEW",
                 "COOKING",
@@ -795,5 +795,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "0e8f281567de7fa4fa9c77900c16e056"
+    "version": "569b7fcd44e20e8e57e7c93aab270cc8"
 };

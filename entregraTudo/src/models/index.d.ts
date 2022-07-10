@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
 
-export enum OrderStatu {
+export enum OrderStatus {
   NEW = "NEW",
   COOKING = "COOKING",
   READY_FOR_PICKUP = "READY_FOR_PICKUP",
@@ -116,7 +116,7 @@ export declare class Order {
   readonly userID: string;
   readonly Restaurant?: Restaurant | null;
   readonly total?: number | null;
-  readonly status: OrderStatu | keyof typeof OrderStatu;
+  readonly status: OrderStatus | keyof typeof OrderStatus;
   readonly OrderDishes?: (OrderDish | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;

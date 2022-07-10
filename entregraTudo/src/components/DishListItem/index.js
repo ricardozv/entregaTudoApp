@@ -1,49 +1,69 @@
-import { View, Text, StyleSheet, Image, Pressable} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { createContext, useContext, useState, useEffect } from "react";
+import { DataStore } from "aws-amplify";
+import { Order, OrderDish, Basket } from "../../models";
+import { useAuthContext } from "../Contexts/AuthContext";
+import { useBasketContext } from "../Contexts/BasketContext";
 
-const DishListItem = ({ dish }) => {
-    const navigation = useNavigation();
-    return (
-        <Pressable onPress = {() => navigation.navigate("Dish", {id: dish.id})} style = { styles.container }>
-            <View style = {{ flex: 1}}>
-                <Text style ={styles.name}>{dish.name}</Text>
-                <Text style = {styles.description} numberOfLines={2}>{dish.description}</Text>
-                <Text style = {styles.price}> R$ {dish.price}</Text>
-            </View>
-            {dish.image && (
-            <Image source = {{ uri: dish.image }} style = {styles.image} />
-            )}
-            </Pressable>
+const OrderContext = createContext({});
+
+const OrderContextProvider = ({ children }) => {
+  const { dbUser } = useAuthContext();
+  const { restaurant, totalPrice, basketDishes, basket } = useBasketContext();
+
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    DataStore.query(Order, (o) => o.userID("eq", dbUser.id)).then(setOrders);
+  }, [dbUser]);
+
+  const createOrder = async () => {
+    // create the order
+    const newOrder = await DataStore.save(
+      new Order({
+        userID: dbUser.id,
+        Restaurant: restaurant,
+        status: "NEW",
+        total: totalPrice,
+      })
     );
+
+    // add all basketDishes to the order
+    await Promise.all(
+      basketDishes.map((basketDish) =>
+        DataStore.save(
+          new OrderDish({
+            quantity: basketDish.quantity,
+            orderID: newOrder.id,
+            Dish: basketDish.Dish,
+          })
+        )
+      )
+    );
+
+    // delete basket
+    await DataStore.delete(basket);
+
+    setOrders([...orders, newOrder]);
+
+    return newOrder;
+  };
+
+  const getOrder = async (id) => {
+    const order = await DataStore.query(Order, id);
+    const orderDishes = await DataStore.query(OrderDish, (od) =>
+      od.orderID("eq", id)
+    );
+
+    return { ...order, dishes: orderDishes };
+  };
+
+  return (
+    <OrderContext.Provider value={{ createOrder, orders, getOrder }}>
+      {children}
+    </OrderContext.Provider>
+  );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        paddingVertical: 10,
-        marginVertical: 10,
-        paddingHorizontal: 20,
-        borderBottomColor: "lightgray",
-        borderBottomWidth: 1,
-        flexDirection:"row"
-    },
-    name: {
-        fontWeight: "600",
-        fontSize: 16,
-        letterSpacing: 0.5
+export default OrderContextProvider;
 
-    },
-    description: {
-        color: "gray",
-        marginVertical: 10
-    },
-    price: {
-        fontSize: 17
-    },
-    image: {
-        height: 100,
-        aspectRatio: 1,
-        borderRadius: 50
-    }
-});
-
-export default DishListItem;
+export const useOrderContext = () => useContext(OrderContext);
