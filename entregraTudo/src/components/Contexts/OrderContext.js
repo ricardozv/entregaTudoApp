@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { DataStore } from "aws-amplify";
 import { Order, OrderDish, Basket } from "../../models";
-import { useAuthContext } from "../Contexts/AuthContext";
-import { useBasketContext } from "../Contexts/BasketContext";
+import { useAuthContext } from "./AuthContext";
+import { useBasketContext } from "./BasketContext";
 
 const OrderContext = createContext({});
 

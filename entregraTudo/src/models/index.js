@@ -2,7 +2,7 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
-const OrderStatu = {
+const OrderStatus = {
   "NEW": "NEW",
   "COOKING": "COOKING",
   "READY_FOR_PICKUP": "READY_FOR_PICKUP",
@@ -20,5 +20,5 @@ export {
   User,
   Order,
   OrderDish,
-  OrderStatu
+  OrderStatus
 };

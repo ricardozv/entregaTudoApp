@@ -41,7 +41,7 @@ const DishDetailsScreen = () => {
     }
 
     const getTotal = () => {
-        return (dish.price * quantity).toFixed(2);
+        return (dish.price * (quantity)).toFixed(2);
     }
     if (!dish) {
         return <ActivityIndicator size="large" color = "gray" />

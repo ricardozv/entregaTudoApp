@@ -1,27 +1,45 @@
-import { useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import BasketDishItem from '../../components/BasketDishItem';
-import restaurants from '../../../assets/data/restaurants.json';
+import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
+import BasketDishItem from "../../components/BasketDishItem";
+import { useBasketContext} from "../../components/Contexts/BasketContext"
+import { useOrderContext } from '../../components/Contexts/OrderContext';
+import { useNavigation } from '@react-navigation/native';
 
-const restaurant = restaurants[0];
+
 
 const Basket = () => {
-    
+    const { restaurant, basketDishes, totalPrice } = useBasketContext();
+    const { createOrder } = useOrderContext();
+    const navigation = useNavigation();
+
+    const onCreateOrder = async () => {
+        await createOrder();
+        navigation.goBack();
+    }
+
     return (
         <View style = {styles.page}>
-            <Text style = {styles.name}>{restaurant.name}</Text>
-            <Text style = {{ fontWeight: "bold", marginTop: 20, fontSize: 22}}>Seu pedido</Text>
+            <Text style = {styles.name}>{restaurant?.name}</Text>
+            <Text style = {{ 
+                fontWeight: "bold", 
+                marginTop: 20, 
+                fontSize: 22
+                }}>
+                Seu pedido
+            </Text>
             <FlatList 
-            data = {restaurant.dishes}
-            renderItem = {({ item }) => <BasketDishItem basketDish = {item} />} />
+                data = {basketDishes}
+                renderItem = {({ item }) => <BasketDishItem basketDish = {item} />} 
+                showsVerticalScrollIndicator = {false}
+                />
+
        
             <View style= {styles.separator} />
             
-            <View style = {styles.button}>
+            <Pressable onPress = { onCreateOrder }style = {styles.button}>
                 <Text style = {styles.buttonText}>
-                    Fazer pedido
+                    Fazer pagamento R$ {totalPrice.toFixed(2)}
                 </Text>
-            </View>
+            </Pressable>
         </View>
     );
 };

@@ -15,7 +15,7 @@ type Dish @model @auth(rules: [{allow: public}]) {
   restaurantID: ID! @index(name: "byRestaurant")
 }
 
-enum OrderStatu {
+enum OrderStatus {
   NEW
   COOKING
   READY_FOR_PICKUP
@@ -34,7 +34,7 @@ type Order @model @auth(rules: [{allow: public}]) {
   userID: ID! @index(name: "byUser")
   Restaurant: Restaurant @hasOne
   total: Float
-  status: OrderStatu!
+  status: OrderStatus!
   OrderDishes: [OrderDish] @hasMany(indexName: "byOrder", fields: ["id"])
 }
 
