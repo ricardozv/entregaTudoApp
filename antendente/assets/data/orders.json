@@ -22,8 +22,8 @@
       },
       "User": {
         "id": "1",
-        "name": "Vadim",
-        "address": "Abc 1",
+        "name": "Paulo Sensei",
+        "address": "Rua 2, casa 23",
         "lat": 37.771389,
         "lng": -122.468611
       }

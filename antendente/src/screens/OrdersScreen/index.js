@@ -8,7 +8,7 @@ import OrderItem from '../../components/OrderItem';
 const OrdersScreen = () => {
   const bottomSheetRef = useRef(null);
 
-  const snapPoints = useMemo(() => ["9%", "93%"], [])
+  const snapPoints = useMemo(() => ["8.5%", "93%"], [])
 
     return (
     <View style={{backgroundColor:'lightblue', flex:1}}>
