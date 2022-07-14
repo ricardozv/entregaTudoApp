@@ -1,5 +1,4 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
 import orders from './assets/data/orders.json';
 import { NavigationContainer } from '@react-navigation/native';
 import Navigation from './src/navigation';
