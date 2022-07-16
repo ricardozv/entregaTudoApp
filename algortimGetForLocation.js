@@ -1,5 +1,5 @@
 import { useRef, useMemo, useEffect, useState } from 'react';
-import { View, Text, Dimensions, useWindowDimensions, ActivityIndicator } from 'react-native';
+import { View, Text, Dimensions, useWindowDimensions } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import orders from '../../../assets/data/orders.json';
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
@@ -10,12 +10,12 @@ import * as Location from 'expo-location';
 
 const OrdersScreen = () => {
     const [driverLocation, setDriverLocation ] = useState(null);
-    const bottomSheetRef = useRef(null);
-    const { width, height } = useWindowDimensions();
-    const snapPoints = useMemo(() => ["7%", "93%"], []);
+  const bottomSheetRef = useRef(null);
+  const { width, height } = useWindowDimensions();
+  const snapPoints = useMemo(() => ["8.5%", "93%"], []);
 
   useEffect(() => {
-    ( async () => {
+    const getDeliveryLocations = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (!status === 'granted') {
             console.log('me dá sua localização lindX ')
@@ -25,32 +25,22 @@ const OrdersScreen = () => {
         let location = await Location.getCurrentPositionAsync();
         setDriverLocation({
             latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.07,
-            longitudeDelta: 0.07,
+            longitude: location.coords.longitude
         });
-    })();
+    }
+
+    getDeliveryLocations();
 
   }, [])
-
-  console.warn(driverLocation);
-  if (!driverLocation) {
-    return <ActivityIndicator size = {"large"} />
-  }
 
     return (
     <View style={{backgroundColor:'lightblue', flex:1}}>
       <GestureHandlerRootView style={{backgroundColor:'lightblue', flex:1}}>
                 <MapView style = {{ 
                     height, 
-                    width, }}
+                    width }}
                     showsUserLocation 
-                    followsUserLocation
-                    region={{
-                        latitude:driverLocation.latitude,
-                        longitude:driverLocation.longitude
-                    }}
-                    >
+                    followsUserLocation >
                         { orders.map (( order )=>(
                           <Marker 
                              title= { order.Restaurant.name }

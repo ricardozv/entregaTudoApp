@@ -1,25 +1,59 @@
-import { useRef, useMemo } from "react";
-import { View, Text } from "react-native";
+import { useRef, useMemo, useState, useEffect } from "react";
+import { View, Text, useWindowDimensions, ActivityIndicator } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { FontAwesome5, Fontisto } from '@expo/vector-icons';
 import orders from '../../../assets/data/orders.json';
+import MapView, { Marker } from "react-native-maps";
+import * as Location from 'expo-location';
 
 const order = orders[0];
 
 const OrderDelivery = () => {
+    const [driverLocation, setDriverLocation ] = useState(null);
     const bottomSheetRef = useRef(null);
-    const snapPoints = useMemo(() => ["8.6", "93%"], [])
+    const { width, height } = useWindowDimensions();
+    const snapPoints = useMemo(() => ["7%", "93%"], []);
+
+    useEffect(() => {
+        ( async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (!status === 'granted') {
+                console.log('me dá sua localização lindX ')
+                    return;
+            }
+    
+            let location = await Location.getCurrentPositionAsync();
+            setDriverLocation({
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.07,
+                longitudeDelta: 0.07,
+            });
+        })();
+    
+      }, [])
+    
+      console.warn(driverLocation);
+      if (!driverLocation) {
+        return <ActivityIndicator size = {"large"} />
+      }
+    
 
     return (
         <View style={{ 
             backgroundColor: "lighblue", 
             flex: 1 }}>
+              
             <GestureHandlerRootView 
             style={{
                 backgroundColor:'lightblue', 
                 flex:1
-            }}>
+             }}>
+                  <MapView 
+                style ={{ height, width }}
+                showsUserLocation
+                followsUserLocation />
                 <BottomSheet 
                     ref={bottomSheetRef} 
                     snapPoints={snapPoints}
