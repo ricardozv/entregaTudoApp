@@ -35,7 +35,7 @@ const OrdersScreen = () => {
 
   console.warn(driverLocation);
   if (!driverLocation) {
-    return <ActivityIndicator size = {"large"} />
+    return <ActivityIndicator size = {"large"}/>
   }
 
     return (
@@ -48,7 +48,9 @@ const OrdersScreen = () => {
                     followsUserLocation
                     region={{
                         latitude:driverLocation.latitude,
-                        longitude:driverLocation.longitude
+                        longitude:driverLocation.longitude,
+                        latitudeDelta: 0.07,
+                        longitudeDelta: 0.07,
                     }}
                     >
                         { orders.map (( order )=>(
