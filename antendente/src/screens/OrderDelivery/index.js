@@ -6,11 +6,22 @@ import { FontAwesome5, Fontisto } from '@expo/vector-icons';
 import orders from '../../../assets/data/orders.json';
 import MapView, { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
+import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import MapViewDirections from "react-native-maps-directions";
 
 const order = orders[0];
 
+const ORDER_STATUSES = {
+    READY_FOR_PICKUP: "READY_FOR_PICKUP",
+    ACCEPTED: "ACCEPTED",
+    PICKED_UP: "PICKED_UP"
+}
+
 const OrderDelivery = () => {
     const [driverLocation, setDriverLocation ] = useState(null);
+    const [ totalMinutes, setTotalMinutes ] = useState(0);
+    const [ totalKm, setTotalKm ] = useState(0);
+
     const bottomSheetRef = useRef(null);
     const { width, height } = useWindowDimensions();
     const snapPoints = useMemo(() => ["7%", "93%"], []);
@@ -31,7 +42,19 @@ const OrderDelivery = () => {
                 longitudeDelta: 0.07,
             });
         })();
-    
+
+        const foregroundSubscription = Location.watchPositionAsync (
+            {
+               accuracy: Location.Accuracy.High,
+               distanceInterval: 100
+            }, ( updatedLocation ) => {
+                setDriverLocation ({
+                latitude: updatedLocation.coords.latitude,
+                longitude: updatedLocation.coords.longitude
+            })
+          }
+        )
+        return foregroundSubscription;
       }, [])
     
       console.warn(driverLocation);
@@ -51,9 +74,60 @@ const OrderDelivery = () => {
                 flex:1
              }}>
                   <MapView 
-                style ={{ height, width }}
-                showsUserLocation
-                followsUserLocation />
+                    style ={{ height, width }}
+                    showsUserLocation
+                    followsUserLocation
+                    initialRegion={{ 
+                    latitude: driverLocation.latitude,
+                    longitude: driverLocation.longitude,
+                    latitudeDelta: 0.07,
+                    longitudeDelta: 0.07,
+                }}>
+                    <MapViewDirections 
+                        origin = { driverLocation }
+                        destination = {{ 
+                            latitude: order.User.lat,
+                            longitude: order.User.lng }}
+                            strokeWidth = { 10 }
+                            waypoints = {[{
+                                latitude: order.Restaurant.lat,
+                                longitude: order.Restaurant.lng
+                            }]}
+                            strokeColor = "#3FC060"
+                            apikey={"AIzaSyA7H4d7iJeVlUpO-rdhi3H-9XBpLpxSGIg"}
+                            onReady = {( result ) => {
+                                setTotalMinutes ( result.duration );
+                                setTotalKm( result.distance );
+                            }}
+                    />
+                    <Marker
+                        coordinate={{ 
+                            latitude: order.Restaurant.lat,
+                            longitude: order.Restaurant.lng,}}
+                            title = {order.Restaurant.name}
+                            description = { order.Restaurant.address } >
+                                <View style = {{ backgroundColor: "green", padding: 5, borderRadius: 20}}>
+                                    <Entypo name = "shop" size={33} color="white" />
+                                </View>
+                    </Marker>
+                    <Marker
+                        coordinate={{ 
+                        latitude: order.User.lat,
+                        longitude: order.User.lng,}}
+                        title = {order.User.name}
+                        description = { order.User.address }>
+                            <View style = {{ 
+                                backgroundColor: "green", 
+                                padding: 5, 
+                                borderRadius: 20
+                            }}>
+                                <MaterialIcons 
+                                    name = "restaurant"
+                                    size={33}
+                                    color="white" />
+                            </View>
+                    </Marker>
+                </MapView>
                 <BottomSheet 
                     ref={bottomSheetRef} 
                     snapPoints={snapPoints}
@@ -71,7 +145,7 @@ const OrderDelivery = () => {
                             fontSize: 25,
                             letterSpacing: 1
 
-                        }}> 25 minutes </Text>
+                        }}> { totalMinutes.toFixed(0) } minutos </Text>
                         <FontAwesome5 
                             name="shopping-bag"
                             size={30}
@@ -81,7 +155,7 @@ const OrderDelivery = () => {
                         <Text style= {{ 
                         fontSize: 25, 
                         letterSpacing: 1 }}>
-                            5 km
+                            { totalKm.toFixed(0) } km
                         </Text>
                     </View>
                     <View style = {{ 
