@@ -12,7 +12,7 @@ const OrdersScreen = () => {
     const [driverLocation, setDriverLocation ] = useState(null);
     const bottomSheetRef = useRef(null);
     const { width, height } = useWindowDimensions();
-    const snapPoints = useMemo(() => ["7%", "93%"], []);
+    const snapPoints = useMemo(() => ["9%", "93%"], []);
 
   useEffect(() => {
     ( async () => {
@@ -33,7 +33,7 @@ const OrdersScreen = () => {
 
   }, [])
 
-  console.warn(driverLocation);
+  
   if (!driverLocation) {
     return <ActivityIndicator size = {"large"}/>
   }
