@@ -14,7 +14,7 @@ const order = orders[0];
 const ORDER_STATUSES = {
     READY_FOR_PICKUP: "READY_FOR_PICKUP",
     ACCEPTED: "ACCEPTED",
-    PICKED_UP: "PICKED_UP"
+    PICKED_UP: "PICKED_UP",
 }
 
 const OrderDelivery = () => {
