@@ -40,7 +40,7 @@ const OrderDelivery = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        ( async () => {
+         async function fetchData() {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (!status === 'granted') {
                 console.log('me dá sua localização lindX ')
@@ -54,7 +54,8 @@ const OrderDelivery = () => {
                 latitudeDelta: 0.07,
                 longitudeDelta: 0.07,
             });
-        })();
+            fetchData();
+        }
 
         const foregroundSubscription = Location.watchPositionAsync (
             {

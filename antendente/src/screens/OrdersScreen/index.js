@@ -15,7 +15,7 @@ const OrdersScreen = () => {
     const snapPoints = useMemo(() => ["9%", "93%"], []);
 
   useEffect(() => {
-    ( async () => {
+     async function fetchData() {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (!status === 'granted') {
             console.log('me dá sua localização lindX ')
@@ -29,8 +29,8 @@ const OrdersScreen = () => {
             latitudeDelta: 0.07,
             longitudeDelta: 0.07,
         });
-    })();
-
+    } 
+    fetchData();
   }, [])
 
   
@@ -74,7 +74,7 @@ const OrdersScreen = () => {
                 ))}
    
          </MapView>
-        <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+        <BottomSheet index = {1} ref={bottomSheetRef} snapPoints={snapPoints}>
             <View style={{ alignItems:"center"}}>        
                 <Text style = {{
                     fontSize: 20,
