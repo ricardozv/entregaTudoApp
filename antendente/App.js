@@ -8,8 +8,8 @@ const order = orders[0]
 export default function App() {
   return (
     <NavigationContainer>
-          <Navigation />
-          <StatusBar style="auto" />
+              <Navigation/>
+      <StatusBar style="auto" />
     </NavigationContainer>
   );
 }

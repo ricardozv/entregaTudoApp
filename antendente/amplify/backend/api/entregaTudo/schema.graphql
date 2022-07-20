@@ -1,0 +1,90 @@
+enum TransportationModes {
+  DRIVING
+  BICYCLING
+}
+
+type Courier @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  sub: String
+  lat: String
+  lng: String
+  transportationMode: TransportationModes!
+}
+
+type BasketDish @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  quantity: Int!
+  Dish: Dish @hasOne
+  basketID: ID! @index(name: "byBasket")
+}
+
+type Dish @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  image: String
+  description: String
+  price: String
+  Restaurant: Restaurant @belongsTo
+  restaurantID: ID! @index(name: "byRestaurant")
+}
+
+enum OrderStatus {
+  NEW
+  COOKING
+  READY_FOR_PICKUP
+  PICKED_UP
+  COMPLETED
+}
+
+type OrderDish @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  quantity: Int!
+  orderID: ID! @index(name: "byOrder")
+}
+
+type Order @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  Restaurant: Restaurant @hasOne
+  total: Float
+  status: OrderStatus!
+  OrderDishes: [OrderDish] @hasMany(indexName: "byOrder", fields: ["id"])
+  Courier: Courier @hasOne
+}
+
+type Basket @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  restaurantID: ID! @index(name: "byRestaurant")
+  BasketDishes: [BasketDish] @hasMany(indexName: "byBasket", fields: ["id"])
+  User: User @belongsTo
+  Restaurant: Restaurant @belongsTo
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  adress: String!
+  lat: Float
+  lng: Float
+  Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
+  Baskets: [Basket] @hasMany(indexName: "byUser", fields: ["id"])
+  sub: String!
+}
+
+type Restaurant @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  image: String!
+  deliveryFee: Float!
+  minDeliveryTime: Int!
+  maxDeliveryTime: Int!
+  rating: Float
+  address: String!
+  lat: Float!
+  lng: Float!
+  Dishes: [Dish] @hasMany(indexName: "byRestaurant", fields: ["id"])
+  Baskets: [Basket] @hasMany(indexName: "byRestaurant", fields: ["id"])
+}
+ 
