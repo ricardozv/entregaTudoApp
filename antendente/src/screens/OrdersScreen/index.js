@@ -6,7 +6,7 @@ import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import OrderItem from '../../components/OrderItem';
 import MapView, { Marker } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
-import * as Location from 'expo-location';
+import { requestForegroundPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
 
 const OrdersScreen = () => {
     const [driverLocation, setDriverLocation ] = useState(null);
@@ -16,13 +16,13 @@ const OrdersScreen = () => {
 
   useEffect(() => {
      async function fetchData() {
-        let { status } = await Location.requestForegroundPermissionsAsync();
+        let { status } = await requestForegroundPermissionsAsync();
         if (!status === 'granted') {
             console.log('me dá sua localização lindX ')
                 return;
         }
 
-        let location = await Location.getCurrentPositionAsync();
+        let location = await getCurrentPositionAsync();
         setDriverLocation({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
@@ -89,9 +89,10 @@ const OrdersScreen = () => {
             showsVerticalScrollIndicator={false}
             data={orders}
             renderItem = {({ item }) => 
-        <OrderItem 
-            order={item} />} 
-        />
+                   {
+                    return <OrderItem
+                        order={item} />;
+                }}/>
         
         </BottomSheet>
       </GestureHandlerRootView>
