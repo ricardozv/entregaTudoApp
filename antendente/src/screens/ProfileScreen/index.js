@@ -1,8 +1,8 @@
-import {View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
+import {View, Text, TextInput, StyleSheet, Button, Alert, Pressable} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Auth, DataStore } from "aws-amplify";
-import { Courier } from '../../models';
+import { Courier, TransportationModes } from '../../models';
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
@@ -11,18 +11,17 @@ const ProfileScreen = () => {
   const { dbCourier, sub, setDbCourier } = useAuthContext();
 
   const [name, setName] = useState(dbCourier?.name || "");
-  const [adress, setAdress] = useState(dbCourier?.lat + "" || "0");
-  const [lat, setLat] = useState(dbCourier?.lat + "" || "0");
-  const [lng, setLng] = useState(dbCourier?.lng + "" || "0");
-
+  const [ transportationMode, setTransportationMode ] = useState(
+    TransportationModes.DRIVING
+    );
 
   const navigation = useNavigation();
 
   const onSave = async () => {
     if (dbCourier){
-      await updateUser();
+      await updateCourier();
       } else {
-        await createUser();
+        await createCourier();
       }
       navigation.goBack();
     };
@@ -31,9 +30,7 @@ const ProfileScreen = () => {
       const courier = await DataStore.save (
         Courier.copyOf(dbCourier, ( updated ) => {
           updated.name = name;
-          updated.address = adress;
-          updated.lat = parseFloat(lat);
-          updated.lng = parseFloat(lng); 
+          updated.transportationMode = transportationMode;
         })
       );
       setDbCourier(courier);
@@ -44,10 +41,8 @@ const ProfileScreen = () => {
         const courier = await DataStore.save(
           new Courier({
             name,
-            adress,
-            lat:parseFloat(lat),
-            lng: parseFloat(lng),
             sub,
+            transportationMode,
           })
         );
         setDbCourier(courier);
@@ -66,12 +61,30 @@ const ProfileScreen = () => {
         style={styles.input}
       />
       <View style={{ flexDirection: "row"}}>
-        <View style ={{ backgroundColor: "red"}}>
+        <Pressable 
+          onPress={()=> setTransportationMode(TransportationModes.BICYCLING)}
+        style ={{ 
+          backgroundColor: transportationMode === TransportationModes.BICYCLING
+          ? "#3FC060":"white",
+          margin: 10,
+          padding: 10,
+          borderColor: "grey",
+          borderRadius: 10 }}>
             <MaterialIcons name = "pedal-bike" size={40} color="black"/>
-          </View>
-          <View>
+          </Pressable>
+          <Pressable 
+          onPress={()=> setTransportationMode(TransportationModes.DRIVING)} 
+          style ={{
+            backgroundColor: 
+            transportationMode === TransportationModes.DRIVING 
+            ? "#3FC060":"white",
+            margin: 10,
+            padding: 10,
+            borderColor: "grey",
+            borderRadius: 10
+          }}>
           <FontAwesome5 name = "car" size={40} color="black"/>
-        </View>
+        </Pressable>
       </View>
 
 
@@ -85,7 +98,7 @@ const ProfileScreen = () => {
               color:"red", 
               margin: 20
               }}>
-              Sign Out
+              Sair
           </Text>
     </SafeAreaView>
   );

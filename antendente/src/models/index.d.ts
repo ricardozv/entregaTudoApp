@@ -51,8 +51,8 @@ export declare class Courier {
   readonly id: string;
   readonly name?: string | null;
   readonly sub?: string | null;
-  readonly lat?: string | null;
-  readonly lng?: string | null;
+  readonly lat?: number | null;
+  readonly lng?: number | null;
   readonly transportationMode: TransportationModes | keyof typeof TransportationModes;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
