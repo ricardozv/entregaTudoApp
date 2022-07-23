@@ -1,9 +1,19 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { Entypo } from "@expo/vector-icons";
+import { DataStore } from 'aws-amplify';
 import { useNavigation } from '@react-navigation/native';
+import { User } from '../../models';
+
 
 const OrderItem = ({ order }) => {
+  const [ user, setUser ] = useState(null);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    DataStore.query(User, order.userID).then(setUser);
+  }, [])
+
   return (
       <Pressable style = {{ 
         flexDirection: 'row', 
@@ -36,15 +46,15 @@ const OrderItem = ({ order }) => {
                     </Text>
                    <Text style={{ 
                     marginTop: 10}}>
-                      Delivery Details
+                      Detalhe do pedido
                     </Text>
                    <Text style={{ 
                     color: 'grey' }}>
-                      {order.User.name}
+                      {user?.name}
                    </Text>
                    <Text style= {{ 
                     color: 'grey' }}>
-                      {order.User.address}
+                      {user?.adress}
                    </Text>
               </View>
               <View style={{ 

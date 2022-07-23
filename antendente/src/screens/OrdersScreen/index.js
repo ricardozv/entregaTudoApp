@@ -1,22 +1,33 @@
 import { useRef, useMemo, useEffect, useState } from 'react';
 import { View, Text, Dimensions, useWindowDimensions, ActivityIndicator } from 'react-native';
-import BottomSheet from '@gorhom/bottom-sheet';
-import orders from '../../../assets/data/orders.json';
+import BottomSheet, {BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import * as Location from "expo-location";
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import OrderItem from '../../components/OrderItem';
 import MapView, { Marker } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
 import { requestForegroundPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
+import { DataStore } from 'aws-amplify';
+import { Order } from '../../models';
 
 const OrdersScreen = () => {
+    const [ orders, setOrders ] = useState([]);
     const [driverLocation, setDriverLocation ] = useState(null);
     const bottomSheetRef = useRef(null);
     const { width, height } = useWindowDimensions();
-    const snapPoints = useMemo(() => ["9%", "93%"], []);
+    const snapPoints = useMemo(() => ["9%", "90%"], []);
+
+    useEffect(() => {
+        DataStore.query(Order, (order) =>
+        order.status("eq", "READY_FOR_PICKUP")
+        ).then(setOrders);
+    }, []);
+
+    console.log(orders)
 
   useEffect(() => {
-     async function fetchData() {
-        let { status } = await requestForegroundPermissionsAsync();
+     (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
         if (!status === 'granted') {
             console.log('me dá sua localização lindX ')
                 return;
@@ -29,8 +40,7 @@ const OrdersScreen = () => {
             latitudeDelta: 0.07,
             longitudeDelta: 0.07,
         });
-    } 
-    fetchData();
+    })(); 
   }, [])
 
   
@@ -51,8 +61,7 @@ const OrdersScreen = () => {
                         longitude:driverLocation.longitude,
                         latitudeDelta: 0.07,
                         longitudeDelta: 0.07,
-                    }}
-                    >
+                    }}>
                         { orders.map (( order )=>(
                           <Marker 
                              title= { order.Restaurant.name }
@@ -61,19 +70,20 @@ const OrdersScreen = () => {
                                   latitude: order.Restaurant.lat,
                                   longitude: order.Restaurant.lng,
                             }}>
-                         <View style = {{ 
-                                 backgroundColor: 'green',
-                                 padding: 5,
-                                 borderRadius: 20 }}>
-                         <Entypo 
-                              name = "shop"
-                              size = {24}
-                              color = 'white' />
-        </View> 
-    </Marker>
+                                <View style = {{ 
+                                        backgroundColor: 'green',
+                                        padding: 5,
+                                        borderRadius: 20 }}>
+                                <Entypo 
+                                    name = "shop"
+                                    size = {24}
+                                    color = 'white' />
+                                </View> 
+                          </Marker>
                 ))}
    
-         </MapView>
+              </MapView>
+
         <BottomSheet index = {1} ref={bottomSheetRef} snapPoints={snapPoints}>
             <View style={{ alignItems:"center"}}>        
                 <Text style = {{
@@ -85,7 +95,7 @@ const OrdersScreen = () => {
                 Pedidos Realizados: {orders.length} 
                 </Text>
             </View>
-        <FlatList
+        <BottomSheetFlatList
             showsVerticalScrollIndicator={false}
             data={orders}
             renderItem = {({ item }) => 
