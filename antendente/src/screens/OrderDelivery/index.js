@@ -36,11 +36,11 @@ const OrderDelivery = () => {
     const bottomSheetRef = useRef(null);
     const mapRef = useRef(null);
     const { width, height } = useWindowDimensions();
-    const snapPoints = useMemo(() => ["9%", "93%"], []);
+    const snapPoints = useMemo(() => ["9%", "90%"], []);
     const navigation = useNavigation();
 
     useEffect(() => {
-         async function fetchData() {
+         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (!status === 'granted') {
                 console.log('me dá sua localização lindX ')
@@ -54,8 +54,8 @@ const OrderDelivery = () => {
                 latitudeDelta: 0.07,
                 longitudeDelta: 0.07,
             });
-            fetchData();
-        }
+            
+        })();
 
         const foregroundSubscription = Location.watchPositionAsync (
             {
