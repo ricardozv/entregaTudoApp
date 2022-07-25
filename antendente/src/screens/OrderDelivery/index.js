@@ -3,22 +3,16 @@ import { View, Text, useWindowDimensions, ActivityIndicator, Pressable } from "r
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { FontAwesome5, Fontisto } from '@expo/vector-icons';
-import orders from '../../../assets/data/orders.json';
 import MapView, { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import { Entypo, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import MapViewDirections from "react-native-maps-directions";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { DataStore } from "aws-amplify";
+import {Order, OrderDish} from "../../models";
+import {User} from "../../models";
+//import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
-const order = orders[0];
-
-const restaurantLocation = { 
-    latitude: order.Restaurant.lat, 
-    longitude: order.Restaurant.lng }
-
-const deliveryLocation = { 
-    latitude: order.User.lat,
-    longitude: order.User.lng }
 
 const ORDER_STATUSES = {
     READY_FOR_PICKUP: "READY_FOR_PICKUP",
@@ -27,6 +21,9 @@ const ORDER_STATUSES = {
 }
 
 const OrderDelivery = () => {
+    const [ order, setOrder ] = useState(null);
+    const [ user, setUser ] = useState(null);
+    const [ dishItems, setDishItems ] = useState([]);
     const [driverLocation, setDriverLocation ] = useState(null);
     const [ totalMinutes, setTotalMinutes ] = useState(0);
     const [ totalKm, setTotalKm ] = useState(0);
@@ -38,6 +35,28 @@ const OrderDelivery = () => {
     const { width, height } = useWindowDimensions();
     const snapPoints = useMemo(() => ["9%", "90%"], []);
     const navigation = useNavigation();
+    const route = useRoute();
+    const id = route.params?.id;
+
+    useEffect(() => {
+        if (!id) {
+            return;
+        }
+        DataStore.query(Order, id).then(setOrder);
+    }, [id])
+
+    useEffect(()=> {
+        if(!order) {
+            return;
+        }
+        DataStore.query(User, order.userID).then(setUser)
+
+        DataStore.query(OrderDish, od => od.orderID("eq", order.id)).then(
+            setDishItems
+        )
+    }, [order]);
+
+    console.log(dishItems);
 
     useEffect(() => {
          (async () => {
@@ -70,10 +89,6 @@ const OrderDelivery = () => {
         )
         return foregroundSubscription;
       }, [])
-
-      if (!driverLocation) {
-        return <ActivityIndicator size = {"large"} />
-      }
 
       const onButtonpressed = () => {
         if (deliveryStatus === ORDER_STATUSES.READY_FOR_PICKUP ) {
@@ -122,17 +137,27 @@ const OrderDelivery = () => {
         return true;
       }
 
+      const restaurantLocation = { 
+        latitude: order?.Restaurant?.lat, 
+        longitude: order?.Restaurant?.lng }
+    
+    const deliveryLocation = { 
+        latitude: user?.lat,
+        longitude: user?.lng }
+
+      if (!driverLocation) {
+        return <ActivityIndicator size = {"large"} />
+      }
+
+      if (!order || !user || !driverLocation) {
+        return (
+            <ActivityIndicator  size = {"large"} color ="gray"/>
+        )
+      }
+
     return (
-        <View style={{ 
-            backgroundColor: "lighblue", 
-            flex: 1 }}>
-            
-              
-            <GestureHandlerRootView 
-            style={{
-                backgroundColor:'lightblue', 
-                flex:1
-             }}>
+        <View style={{ backgroundColor: "lighblue", flex: 1 }}>
+            <GestureHandlerRootView style={{ backgroundColor:'lightblue', flex:1 }}>
                   <MapView 
                     ref = {mapRef}
                     style ={{ height, width }}
@@ -175,11 +200,9 @@ const OrderDelivery = () => {
                                 </View>
                     </Marker>
                     <Marker
-                        coordinate={{ 
-                        latitude: order.User.lat,
-                        longitude: order.User.lng,}}
-                        title = {order.User.name}
-                        description = { order.User.address }>
+                        coordinate={ deliveryLocation }
+                        title = {user.name}
+                        description = { user.address }>
                             <View style = {{ 
                                 backgroundColor: "green", 
                                 padding: 5, 
@@ -277,41 +300,17 @@ const OrderDelivery = () => {
                             fontWeight:'500',
                             letterSpacing:0.5,
                             marginLeft: 15 }}>
-                            {order.User.address}
+                            {user.adress}
                         </Text>
                         </View>
                         
-                        <View style = {{ 
-                            paddingTop: 6,
-                            borderTopWidth: 2,
-                            borderColor:'lightgrey'
-                        }}>
-                            
-                            <Text
-                            style= {{
-                                fontSize: 18,
-                                color:'grey',
-                                fontWeight:'500',
-                                letterSpacing:0.5,
-                                marginBottom: 5
-                            }}>Uma cerveja Heineken</Text>
-                            <Text
-                             style= {{
-                                fontSize: 18,
-                                color:'grey',
-                                fontWeight:'500',
-                                letterSpacing:0.5,
-                                marginBottom: 5
-                            }}>Um hamburguer</Text>
-                            <Text
-                             style= {{
-                                fontSize: 18,
-                                color:'grey',
-                                fontWeight:'500',
-                                letterSpacing:0.5,
-                                marginBottom: 5
-                            }}>Um ingresso </Text>
-                        </View>
+                        <View style = {{ paddingTop: 6, borderTopWidth: 2, borderColor:'lightgrey'}}>
+                            {dishItems.map((dishItem) => (        
+                                    <Text style= {{ fontSize: 18, color:'grey', fontWeight:'500', letterSpacing:0.5,marginBottom: 5 }}key ={dishItem.id}>
+                                          {dishItem.quantity} {dishItem.Dish.name}
+                                    </Text>
+                                ))}
+                    </View>
                     </View>
                     <Pressable 
                     style={{ 
