@@ -41,6 +41,7 @@ type OrderDish @model @auth(rules: [{allow: public}]) {
   id: ID!
   quantity: Int!
   orderID: ID! @index(name: "byOrder")
+  Dish: Dish @hasOne
 }
 
 type Order @model @auth(rules: [{allow: public}]) {

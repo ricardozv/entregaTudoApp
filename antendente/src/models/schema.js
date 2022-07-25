@@ -840,6 +840,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "Dish": {
+                    "name": "Dish",
+                    "isArray": false,
+                    "type": {
+                        "model": "Dish"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
+                        "targetName": "orderDishDishId"
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -855,6 +869,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "orderDishDishId": {
+                    "name": "orderDishDishId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -912,5 +933,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "2038aa3d8f49687ccec13280c0364379"
+    "version": "b6cb332989f0ef79c75445b06e49eab5"
 };

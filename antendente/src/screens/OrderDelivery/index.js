@@ -3,7 +3,6 @@ import { View, Text, useWindowDimensions, ActivityIndicator, Pressable } from "r
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { FontAwesome5, Fontisto } from '@expo/vector-icons';
-// import orders from '../../../assets/data/orders.json';
 import MapView, { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import { Entypo, MaterialIcons, Ionicons } from "@expo/vector-icons";
@@ -51,10 +50,13 @@ const OrderDelivery = () => {
             return;
         }
         DataStore.query(User, order.userID).then(setUser)
-        DataStore.query(OrderDish, (od) => od.orderID("eq", order.id)).then(
+
+        DataStore.query(OrderDish, od => od.orderID("eq", order.id)).then(
             setDishItems
         )
     }, [order]);
+
+    console.log(dishItems);
 
     useEffect(() => {
          (async () => {
@@ -305,7 +307,7 @@ const OrderDelivery = () => {
                         <View style = {{ paddingTop: 6, borderTopWidth: 2, borderColor:'lightgrey'}}>
                             {dishItems.map((dishItem) => (        
                                     <Text style= {{ fontSize: 18, color:'grey', fontWeight:'500', letterSpacing:0.5,marginBottom: 5 }}key ={dishItem.id}>
-                                        {dishItem.Dish.name} X {dishItem.quantity} 
+                                          {dishItem.quantity} {dishItem.Dish.name}
                                     </Text>
                                 ))}
                     </View>

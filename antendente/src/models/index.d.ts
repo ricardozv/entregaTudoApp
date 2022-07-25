@@ -153,8 +153,10 @@ export declare class OrderDish {
   readonly id: string;
   readonly quantity: number;
   readonly orderID: string;
+  readonly Dish?: Dish | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly orderDishDishId?: string | null;
   constructor(init: ModelInit<OrderDish, OrderDishMetaData>);
   static copyOf(source: OrderDish, mutator: (draft: MutableModel<OrderDish, OrderDishMetaData>) => MutableModel<OrderDish, OrderDishMetaData> | void): OrderDish;
 }
