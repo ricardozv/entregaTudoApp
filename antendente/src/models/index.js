@@ -12,7 +12,8 @@ const OrderStatus = {
   "COOKING": "COOKING",
   "READY_FOR_PICKUP": "READY_FOR_PICKUP",
   "PICKED_UP": "PICKED_UP",
-  "COMPLETED": "COMPLETED"
+  "COMPLETED": "COMPLETED",
+  "ACCEPTED": "ACCEPTED"
 };
 
 const { Courier, BasketDish, Dish, Restaurant, Basket, User, Order, OrderDish } = initSchema(schema);

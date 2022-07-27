@@ -11,6 +11,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { DataStore } from "aws-amplify";
 import {Order, OrderDish} from "../../models";
 import {User} from "../../models";
+import { useOrderContext } from "../../contexts/OrderConext";
 //import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 
 
@@ -29,6 +30,8 @@ const OrderDelivery = () => {
     const [ totalKm, setTotalKm ] = useState(0);
     const [ deliveryStatus, setDeliveryStatus ] = useState(ORDER_STATUSES.READY_FOR_PICKUP);
     const [ isDriverClose, setIsDriverClose ] = useState(false);
+
+    const  { acceptOrder } = useOrderContext();
 
     const bottomSheetRef = useRef(null);
     const mapRef = useRef(null);
@@ -100,6 +103,7 @@ const OrderDelivery = () => {
                 longitude: 0.01
             });
             setDeliveryStatus(ORDER_STATUSES.ACCEPTED);
+            acceptOrder(order);
         }
         if ( deliveryStatus === ORDER_STATUSES.ACCEPTED) {
             bottomSheetRef.current?.collapse();
