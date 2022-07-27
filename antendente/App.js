@@ -6,6 +6,7 @@ import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react-native';
 import awsconfig from './src/aws-exports';
 import AuthContextProvider from './src/contexts/AuthContext';
+import OrderContextProvider from './src/contexts/OrderConext';
 
 Amplify.configure({ 
   ...awsconfig, 
@@ -19,7 +20,9 @@ const order = orders[0]
   return (
     <NavigationContainer>
       <AuthContextProvider>
-              <Navigation/>
+        <OrderContextProvider>
+            <Navigation/>
+        </OrderContextProvider>
       </AuthContextProvider>
       <StatusBar style="auto" />
     </NavigationContainer>
